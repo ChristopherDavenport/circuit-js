@@ -11,7 +11,7 @@ describe('Tests index', function () {
     let result1 = await circuit.protect(success)//.catch(error => alert(error.message))
     expect(result1).to.equal("Woot")
   });
-  
+
   it.only('verifies error fails', async () => {
     let err = async () => {
       Promise.reject(new Error("fail"))
@@ -19,8 +19,8 @@ describe('Tests index', function () {
 
     let circuit = new app.CircuitBreaker(1, "30 seconds", 1, "30 seconds")
 
-    let result1 = await circuit.protect(err)
-    expect(result1).to.be.an('Error')//equal("Woot")
+    let result1 = await circuit.protect(err).catch(error => error.message )
+    expect(result1).to.equal("fail")
   });
 
 
@@ -37,7 +37,7 @@ describe('Tests index', function () {
     // let a = new app.CircuitBreaker(1, "30 seconds", 1, "30 seconds")
 
     // let result1 = await circuit.protect(success)//.catch(error => alert(error.message))
-    let result1 = await circuit.protect(err)
+    let result1 = await circuit.protect(err).catch(error => { return error.message })
     // let result3 = await circuit.protect(success)
     // let result2 = circuit.protect(err2).catch(error => alert(error.message))
 
