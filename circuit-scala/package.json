@@ -1,5 +1,5 @@
 {
-  "name": "circuit-js",
+  "name": "circuit-scala",
   "version": "0.0.1",
   "description": "Circuit Breaker",
   "main": "main.js",
