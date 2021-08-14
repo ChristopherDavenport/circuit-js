@@ -11,8 +11,8 @@ import cats.effect.unsafe.IORuntime.global
 class Circuit(
   @JSExport val maxFailures: Int,
   @JSExport val resetTimeout: String,
-  @JSExport val exponentialBackoffFactor: Int,
-  @JSExport val maxResetTimeout: String
+  @JSExport val exponentialBackoffFactor: Int = 1,
+  @JSExport val maxResetTimeout: String = "5 minutes"
 ){
   private val resetTimeoutInternal = Duration(resetTimeout) match{ 
     case d: FiniteDuration => d

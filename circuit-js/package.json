@@ -1,6 +1,6 @@
 {
   "name": "circuit-js",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Circuit Breaker",
   "main": "main.js",
   "repository": "https://github.com/ChristopherDavenport/circuit-js",
