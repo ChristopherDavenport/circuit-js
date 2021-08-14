@@ -1,7 +1,7 @@
 {
   "name": "circuit-scala",
-  "version": "0.0.1",
-  "description": "Circuit Breaker",
+  "version": "0.0.2",
+  "description": "CircuitBreaker is used to provide stability and prevent cascading failures in distributed systems.",
   "main": "main.js",
   "repository": "https://github.com/ChristopherDavenport/circuit-js",
   "author": "Christopher Davenport",
@@ -13,5 +13,13 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^8.2.1"
-  }
+  },
+  "keywords": [
+    "circuit breaker",
+    "circuit-breaker",
+    "fail-fast",
+    "circuit",
+    "breaker",
+    "rate-limiting"
+  ]
 }
