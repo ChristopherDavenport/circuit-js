@@ -19,7 +19,7 @@ describe('Tests index', function () {
 
     let circuit = new app.CircuitBreaker(1, "30 seconds", 1, "30 seconds")
 
-    let result1 = await circuit.protect(err).catch(error => error.message )
+    let result1 = await circuit.protect(err).catch(err => err)
     expect(result1).to.equal("fail")
   });
 
