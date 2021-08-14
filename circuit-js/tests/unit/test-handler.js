@@ -1,26 +1,44 @@
-const app = require('../../circuit-js-opt.js');
+const app = require('../../main.js');
 const chai = require('chai');
 const expect = chai.expect;
 var event, context;
 
 describe('Tests index', function () {
-  it.only('verifies successful response', async () => {
+  it.only('verifies success completes', async () => {
+    let success = () => Promise.resolve("Woot")
+    let circuit = new app.CircuitBreaker(1, "30 seconds", 1, "30 seconds")
+
+    let result1 = await circuit.protect(success)//.catch(error => alert(error.message))
+    expect(result1).to.equal("Woot")
+  });
+  
+  it.only('verifies error fails', async () => {
     let err = async () => {
       Promise.reject(new Error("fail"))
     }
-    let err2 = async () => {
-      Promise.reject(new Error("fail2"))
+
+    let circuit = new app.CircuitBreaker(1, "30 seconds", 1, "30 seconds")
+
+    let result1 = await circuit.protect(err)
+    expect(result1).to.be.an('Error')//equal("Woot")
+  });
+
+
+  it.only('verifies error on circuit open', async () => {
+    let err = async () => {
+      Promise.reject(new Error("fail"))
     }
-    let success = () => {
-       new Promise(function(resolve, reject){
-         resolve("Woot")
-       })
-    }
+    // let err2 = async () => {
+    //   Promise.reject(new Error("fail2"))
+    // }
+    // let success = () => Promise.resolve("Woot")
 
     let circuit = new app.CircuitBreaker(1, "30 seconds", 1, "30 seconds")
     // let a = new app.CircuitBreaker(1, "30 seconds", 1, "30 seconds")
 
-    let result1 = await circuit.protect(success)//.catch(error => alert(error.message))
+    // let result1 = await circuit.protect(success)//.catch(error => alert(error.message))
+    let result1 = await circuit.protect(err)
+    // let result3 = await circuit.protect(success)
     // let result2 = circuit.protect(err2).catch(error => alert(error.message))
 
     // const result2 = circuit.protect(() => new Promise(function(success, error) {
@@ -34,7 +52,7 @@ describe('Tests index', function () {
 
 
     // expect(result1).to.be.undefined
-    expect(result1).to.equal("Woot")
+    expect(result1).to.be.an('Error')//equal("Woot")
     
       // .catch(function(e) {
       //   expect(e.message).to.equal('fail 2')
@@ -52,4 +70,5 @@ describe('Tests index', function () {
         // expect(response.message).to.be.equal("hello world");
         // expect(response.location).to.be.an("string");
   });
+
 });
