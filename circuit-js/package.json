@@ -1,0 +1,17 @@
+{
+  "name": "circuit-js",
+  "version": "1.0.0",
+  "description": "Circuit Breaker",
+  "main": "circuit-js-opt.js",
+  "repository": "https://github.com/ChristopherDavenport/circuit-js",
+  "author": "Christopher Davenport",
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {
+    "test": "mocha tests/unit/"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1"
+  }
+}
