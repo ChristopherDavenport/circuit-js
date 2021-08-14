@@ -30,7 +30,7 @@ class Circuit(
 
   @JSExport
   def protect[A](pr: js.Function0[js.Promise[A]]): js.Promise[A] = 
-      circuit.protect(IO.fromFuture(IO(pr().toFuture)))
+      circuit.protect(IO.fromPromise(IO(pr())))
         .unsafeToPromise()(global)
 
 }
