@@ -12,10 +12,13 @@ describe('Tests index', function () {
       Promise.reject(new Error("fail2"))
     }
     let success = () => {
-      Promise.resolve('Woot')
+       new Promise(function(resolve, reject){
+         resolve("Woot")
+       })
     }
 
     let circuit = new app.CircuitBreaker(1, "30 seconds", 1, "30 seconds")
+    // let a = new app.CircuitBreaker(1, "30 seconds", 1, "30 seconds")
 
     let result1 = await circuit.protect(success)//.catch(error => alert(error.message))
     // let result2 = circuit.protect(err2).catch(error => alert(error.message))
