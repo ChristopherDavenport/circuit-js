@@ -36,7 +36,7 @@ ThisBuild / githubWorkflowPublish := Seq(
     name = Some("Create Target Directory So That we have a location for config")
   ), // We run to make sure directory exists
   WorkflowStep.Run(
-    List("echo \"//registry.npmjs.org/:_authToken=${NPM_TOKEN}\" > core/target/scala-2.13/npm-package/.npmrc" ),
+    List("echo \"//registry.npmjs.org/:_authToken=\\${NPM_TOKEN}\" > core/target/scala-2.13/npm-package/.npmrc" ),
     name = Some("Create npmrc so that the token is used for npm publication")
   ), // We write a config for the directory for npm
   WorkflowStep.Sbt(
