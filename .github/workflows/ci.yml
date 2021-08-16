@@ -49,15 +49,20 @@ jobs:
             ~/Library/Caches/Coursier/v1
           key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
       - name: Check that workflows are up to date
         run: sbt --client '++${{ matrix.scala }}; githubWorkflowCheck'
 
-      - run: sbt --client '++${{ matrix.scala }}; test; mimaReportBinaryIssues'
+      - name: Install artifacts to npm
+        run: sbt --client '++${{ matrix.scala }}; test; npmPackageInstall'
 
   publish:
     name: Publish Artifacts
     needs: [build]
-    if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main')
+    if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v'))
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -89,10 +94,11 @@ jobs:
 
       - uses: olafurpg/setup-gpg@v3
 
-      - name: Publish artifacts to Sonatype
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Publish artifacts to npm
         env:
-          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.PGP_SECRET }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-        run: sbt --client '++${{ matrix.scala }}; ci-release'
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: sbt --client '++${{ matrix.scala }}; test; npmPackagePublish'
