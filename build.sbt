@@ -15,8 +15,8 @@ ThisBuild / githubWorkflowBuildPreamble ++= Seq(WorkflowStep.Use(
 
 ThisBuild / githubWorkflowBuild ++= Seq(
   WorkflowStep.Sbt(
-    List("npmPackageInstall"),
-    name = Some("Publish artifacts to npm"),
+    List("test", "npmPackageInstall"),
+    name = Some("Install artifacts to npm"),
   )
 )
 
@@ -29,7 +29,7 @@ ThisBuild / githubWorkflowPublishPreamble ++=  Seq(WorkflowStep.Use(
 
 ThisBuild / githubWorkflowPublish := Seq(
   WorkflowStep.Sbt(
-    List("npmPackagePublish"),
+    List("test", "npmPackagePublish"),
     name = Some("Publish artifacts to npm"),
     env = Map(
       "NODE_AUTH_TOKEN" -> "${{ secrets.NPM_TOKEN }}"
