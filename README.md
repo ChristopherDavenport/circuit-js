@@ -6,9 +6,9 @@ The CircuitBreaker is used to provide stability and prevent cascading failures i
 
 ```javascript
 let circuit = new CircuitBreaker(
-  maxFailures: Int, // How many consecutive errors before opening the circuit breaker, like 25
+  maxFailures: Number, // How many consecutive errors before opening the circuit breaker, like 25
   resetTimeout: String, // A Time Period like '10 seconds'
-  exponentialBackoffFactor: Int  = 1 // On What Exponential Scaling default in 1 so it stays the same each time
+  exponentialBackoffFactor: Number  = 1 // On What Exponential Scaling default in 1 so it stays the same each time
   maxResetTimeout: String = '10 minutes' // Maximum Reset Timeout, 
   // if exponentialBackoff is set above 1 what is the maximum time
 )

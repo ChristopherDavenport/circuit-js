@@ -25,14 +25,19 @@ ThisBuild / githubWorkflowPublishPreamble ++=  Seq(WorkflowStep.Use(
   UseRef.Public("actions", "setup-node", "v1"),
   Map(
     "node-version" -> "14",
-    "token" -> "${{ secrets.NPM_TOKEN }}"
+  ),
+  env = Map(
+    "NPM_TOKEN" -> "${{ secrets.NPM_TOKEN }}" // https://docs.npmjs.com/using-private-packages-in-a-ci-cd-workflow#set-the-token-as-an-environment-variable-on-the-cicd-server
   )
 ))
 
 ThisBuild / githubWorkflowPublish := Seq(
   WorkflowStep.Sbt(
     List("test", "npmPackagePublish"),
-    name = Some("Publish artifacts to npm")
+    name = Some("Publish artifacts to npm"),
+    env = Map(
+      "NPM_TOKEN" -> "${{ secrets.NPM_TOKEN }}" // https://docs.npmjs.com/using-private-packages-in-a-ci-cd-workflow#set-the-token-as-an-environment-variable-on-the-cicd-server
+    )
   )
 )
 

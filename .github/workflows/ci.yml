@@ -94,10 +94,13 @@ jobs:
 
       - uses: olafurpg/setup-gpg@v3
 
-      - uses: actions/setup-node@v1
+      - env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        uses: actions/setup-node@v1
         with:
           node-version: 14
-          token: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish artifacts to npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: sbt --client '++${{ matrix.scala }}; test; npmPackagePublish'
