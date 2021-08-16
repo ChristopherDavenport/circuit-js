@@ -103,4 +103,4 @@ jobs:
       - name: Publish artifacts to npm
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: sbt --client '++${{ matrix.scala }}; test; npmPackagePublish'
+        run: sbt --client '++${{ matrix.scala }}; clean; npmPackagePublish'
