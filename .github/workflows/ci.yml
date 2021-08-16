@@ -56,10 +56,8 @@ jobs:
       - name: Check that workflows are up to date
         run: sbt --client '++${{ matrix.scala }}; githubWorkflowCheck'
 
-      - run: sbt --client '++${{ matrix.scala }}; test; mimaReportBinaryIssues'
-
-      - name: Publish artifacts to npm
-        run: sbt --client '++${{ matrix.scala }}; npmPackageInstall'
+      - name: Install artifacts to npm
+        run: sbt --client '++${{ matrix.scala }}; test; npmPackageInstall'
 
   publish:
     name: Publish Artifacts
@@ -103,4 +101,4 @@ jobs:
       - name: Publish artifacts to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: sbt --client '++${{ matrix.scala }}; npmPackagePublish'
+        run: sbt --client '++${{ matrix.scala }}; test; npmPackagePublish'

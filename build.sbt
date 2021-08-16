@@ -13,7 +13,7 @@ ThisBuild / githubWorkflowBuildPreamble ++= Seq(WorkflowStep.Use(
   )
 ))
 
-ThisBuild / githubWorkflowBuild ++= Seq(
+ThisBuild / githubWorkflowBuild := Seq(
   WorkflowStep.Sbt(
     List("test", "npmPackageInstall"),
     name = Some("Install artifacts to npm"),
