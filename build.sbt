@@ -56,7 +56,15 @@ lazy val core = project.in(file("core"))
   .settings(
     name := "circuit-scala",
     npmPackageAuthor := "Christopher Davenport",
-    npmPackageDescription := "Circuit Implementation",
+    npmPackageDescription := "CircuitBreaker is used to provide stability and prevent cascading failures in distributed systems.",
+    npmPackageKeywords := Seq(
+      "circuit breaker",
+      "circuit-breaker",
+      "fail-fast",
+      "circuit",
+      "breaker",
+      "rate-limiting"
+    ),
     licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
     libraryDependencies ++= Seq(
       "io.chrisdavenport" %%% "circuit" % "0.5.0-M2",
