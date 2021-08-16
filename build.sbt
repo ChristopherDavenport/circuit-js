@@ -4,6 +4,38 @@ ThisBuild / crossScalaVersions := Seq("2.13.6")
 
 ThisBuild / testFrameworks += new TestFramework("munit.Framework")
 
+ThisBuild / githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+
+ThisBuild / githubWorkflowBuildPreamble ++= Seq(WorkflowStep.Use(
+  UseRef.Public("actions", "setup-node", "v1"),
+  Map(
+    "node-version" -> "14"
+  )
+))
+
+ThisBuild / githubWorkflowBuild ++= Seq(
+  WorkflowStep.Sbt(
+    List("npmPackageInstall"),
+    name = Some("Publish artifacts to npm"),
+  )
+)
+
+ThisBuild / githubWorkflowPublishPreamble ++=  Seq(WorkflowStep.Use(
+  UseRef.Public("actions", "setup-node", "v1"),
+  Map(
+    "node-version" -> "14"
+  )
+))
+
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Sbt(
+    List("npmPackagePublish"),
+    name = Some("Publish artifacts to npm"),
+    env = Map(
+      "NODE_AUTH_TOKEN" -> "${{ secrets.NPM_TOKEN }}"
+    )
+  )
+)
 
 val catsV = "2.6.1"
 val catsEffectV = "3.1.1"
@@ -23,10 +55,9 @@ lazy val core = project.in(file("core"))
   .enablePlugins(NpmPackagePlugin)
   .settings(
     name := "circuit-scala",
+    npmPackageAuthor := "Christopher Davenport",
     npmPackageDescription := "Circuit Implementation",
     licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
-
-    npmPackageOutputDirectory := file("circuit-scala-2"),
     libraryDependencies ++= Seq(
       "io.chrisdavenport" %%% "circuit" % "0.5.0-M2",
       "org.typelevel"               %%% "munit-cats-effect-3"        % munitCatsEffectV         % Test,
