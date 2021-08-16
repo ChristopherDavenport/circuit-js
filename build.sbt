@@ -24,17 +24,15 @@ ThisBuild / githubWorkflowBuild := Seq(
 ThisBuild / githubWorkflowPublishPreamble ++=  Seq(WorkflowStep.Use(
   UseRef.Public("actions", "setup-node", "v1"),
   Map(
-    "node-version" -> "14"
+    "node-version" -> "14",
+    "token" -> "${{ secrets.NPM_TOKEN }}"
   )
 ))
 
 ThisBuild / githubWorkflowPublish := Seq(
   WorkflowStep.Sbt(
     List("test", "npmPackagePublish"),
-    name = Some("Publish artifacts to npm"),
-    env = Map(
-      "NODE_AUTH_TOKEN" -> "${{ secrets.NPM_TOKEN }}"
-    )
+    name = Some("Publish artifacts to npm")
   )
 )
 
