@@ -94,13 +94,17 @@ jobs:
 
       - uses: olafurpg/setup-gpg@v3
 
-      - env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
         with:
           node-version: 14
+
+      - name: Create Target Directory So That we have a location for config
+        run: mkdir -p core/target/scala-2.13/npm-package
+
+      - name: Create npmrc so that the token is used for npm publication
+        run: 'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > core/target/scala-2.13/npm-package/.npmrc'
 
       - name: Publish artifacts to npm
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: sbt --client '++${{ matrix.scala }}; clean; npmPackagePublish'
+        run: sbt --client '++${{ matrix.scala }}; npmPackagePublish'
