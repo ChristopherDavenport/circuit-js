@@ -13,3 +13,4 @@ metals.sbt
 .bsp
 
 node_modules
+circuit-scala-2

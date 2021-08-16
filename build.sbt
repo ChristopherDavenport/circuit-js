@@ -20,14 +20,15 @@ lazy val `circuit-js` = project.in(file("."))
   .aggregate(core)
 
 lazy val core = project.in(file("core"))
-  .enablePlugins(ScalaJSPlugin)
-  .enablePlugins(ScalaJSBundlerPlugin)
+  .enablePlugins(NpmPackagePlugin)
   .settings(
-    name := "circuit-js",
+    name := "circuit-scala",
+    npmPackageDescription := "Circuit Implementation",
+    licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
+
+    npmPackageOutputDirectory := file("circuit-scala-2"),
     libraryDependencies ++= Seq(
       "io.chrisdavenport" %%% "circuit" % "0.5.0-M2",
       "org.typelevel"               %%% "munit-cats-effect-3"        % munitCatsEffectV         % Test,
     ),
-    // scalaJSUseMainModuleInitializer := true,
-    scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
   )
