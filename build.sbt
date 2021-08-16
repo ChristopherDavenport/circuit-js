@@ -1,3 +1,4 @@
+import org.scalajs.sbtplugin.Stage
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 ThisBuild / crossScalaVersions := Seq("2.13.6")
@@ -65,6 +66,7 @@ lazy val core = project.in(file("core"))
       "breaker",
       "rate-limiting"
     ),
+    npmPackageStage := Stage.FullOpt,
     licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
     libraryDependencies ++= Seq(
       "io.chrisdavenport" %%% "circuit" % "0.5.0-M2",
