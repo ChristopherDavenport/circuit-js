@@ -97,8 +97,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+          token: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish artifacts to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: sbt --client '++${{ matrix.scala }}; test; npmPackagePublish'
