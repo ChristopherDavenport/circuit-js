@@ -31,16 +31,8 @@ ThisBuild / githubWorkflowPublishPreamble ++= Seq(
 )
 
 ThisBuild / githubWorkflowPublish := Seq(
-  WorkflowStep.Run(
-    List("mkdir -p core/target/scala-2.13/npm-package"),
-    name = Some("Create Target Directory So That we have a location for config")
-  ), // We run to make sure directory exists
-  WorkflowStep.Run(
-    List("echo \"//registry.npmjs.org/:_authToken=\\${NPM_TOKEN}\" > core/target/scala-2.13/npm-package/.npmrc" ),
-    name = Some("Create npmrc so that the token is used for npm publication")
-  ), // We write a config for the directory for npm
   WorkflowStep.Sbt(
-    List("npmPackagePublish"),
+    List("npmPackageNpmrc", "npmPackagePublish"),
     name = Some("Publish artifacts to npm"),
     env = Map(
       "NPM_TOKEN" -> "${{ secrets.NPM_TOKEN }}" // https://docs.npmjs.com/using-private-packages-in-a-ci-cd-workflow#set-the-token-as-an-environment-variable-on-the-cicd-server
